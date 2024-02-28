@@ -148,10 +148,12 @@ CORS_ALLOWED_ORIGINS = [
     'https://yardleygutierrez.com',
     'https://www.yardleygutierrez.com',
     'http://localhost:8080',
+    'https://monkfish-app-nrrv6.ondigitalocean.app/',
 ]
 
 CORS_ORIGIN_WHITELIST = [
     'http://localhost:3000',
     'https://yardleygutierrez.com',
     'https://www.yardleygutierrez.com',
+    'https://monkfish-app-nrrv6.ondigitalocean.app/',
 ]
