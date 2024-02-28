@@ -6,7 +6,7 @@
     "npm": "8.1.2"
   },
   "private": true,
-  "proxy": "https://api.yardleygutierrez.com",
+  "proxy": "http://localhost:8000",
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
