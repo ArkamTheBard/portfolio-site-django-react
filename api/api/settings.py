@@ -143,6 +143,13 @@ MEDIA_URL = '/media/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:3000',
+    'https://yardleygutierrez.com',
+    'https://www.yardleygutierrez.com',
+    'http://localhost:8080',
+]
+
 CORS_ORIGIN_WHITELIST = [
     'http://localhost:3000',
     'https://yardleygutierrez.com',
