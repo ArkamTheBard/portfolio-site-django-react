@@ -2,3 +2,5 @@ db.sqlite3
 frontend/node_modules/
 venv/
 *.pyc
+api/api/__pycache__/wsgi.cpython-310.pyc
+api/api/*.pyc
