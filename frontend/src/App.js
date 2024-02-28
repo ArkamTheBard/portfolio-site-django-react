@@ -120,7 +120,8 @@ function App() {
             <h3 className='text-lg border-b-2 border-slate-300 text-slate-800'>{p.title}</h3>
             <a className='py-2 text-blue-500 hover:text-blue-700 transition cursor-pointer' href={p.url}>View Code</a>
             <p>{p.description}</p>
-            <img alt='portfolio' src={p.image}></img>
+            {/* <img alt='portfolio' src={p.image}></img> */}
+            <img alt='portfolio' src='../api/api/media/uploads/oldportfolio.png'></img>
             </div>
           ))}
         </div>
