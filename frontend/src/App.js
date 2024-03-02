@@ -43,7 +43,7 @@ function App() {
   const isVisible3 = useIsVisible(portfolioRef)
 
   const getData = async () => {
-    const educationResponse = await fetch('https://api.yardleygutierrez.com/education')
+    const educationResponse = await fetch('/education')
     const educationData = await educationResponse.json()
     setEducation(educationData)
 
@@ -67,7 +67,7 @@ function App() {
 
         <div className='flex md:flex-row flex-col space-between md:w-2/4 m-auto py-5 border rounded-sm px-3 shadow'>
           <img alt='profile' className='rounded-full w-64 h-72 mx-8' src='./Yardley-Gutierrez-web.jpg'></img>
-          <div>
+          <div className='md:max-h-96 overflow-y-scroll scroll-smooth'>
             <h5 className='text-2xl text-cyan-900 border-b-2 border-slate-300'>About me</h5>
             <p className='pt-3'>I am currently a Software Engineer with Walmart Global Tech with a focus on SDET (Software Development Engineering in Test). I am also currently my team's Dev Support lead, so I do L3 support for our product. I have a background in computer science and mathematics. During my time at Field Agent, I fulfilled a dual-role as both an IT Technician and Support Developer where I usually handled projects for both their IT operation and development/deployment of internal tools. I also handled a support helpdesk for both all things IT and any bugs or issues that came up with their webapp. This included live debugging and writing up bug cards for the development team to take a look at. Having attended both Texas A&M University and the University of Nevada Las Vegas, I have a strong background in computer science. I have worked with a variety of languages and frameworks, including C++, Java, Python, Django, and Angular. Outside of required classes, I worked with Texas Aggie Game Developers during my time at Texas A&M University where we worked together on a passion project to create a 2D Role-Playing Game. I am a graduate from Eastfield College in Mesquite, Texas with an Associates in Science. Prior to working with Field Agent, I worked as a health professional with CVS Pharmacy and then with Northwest Health Systems. I am a graduate of LaunchCode's Full Stack Web Development in Java/Javascript bootcamp as of April 2021. I have also been working on a Discord bot using their Python API and a Discord.js library to create a bot that can be used to play games with friends and manage server permissions. I have many other passions, for example, I am very passionate and interested in learning about moral phiolosophy. Recently I have been reading the Metaphysics of Morals by Emmanuel Kant.</p>
           </div>
