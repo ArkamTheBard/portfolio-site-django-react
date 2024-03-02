@@ -10,6 +10,7 @@ router = routers.DefaultRouter()
 router.register(r'education', views.EducationViewSet)
 router.register(r'work', views.WorkViewSet)
 router.register(r'portfolio', views.PortfolioViewSet)
+router.register(r'bio', views.BioViewSet)
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.

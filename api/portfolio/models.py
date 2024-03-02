@@ -23,3 +23,5 @@ class Portfolio(models.Model):
     url = models.URLField()
     ordinal = models.IntegerField()
 
+class Bio(models.Model):
+    description = models.TextField()

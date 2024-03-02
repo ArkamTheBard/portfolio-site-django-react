@@ -1,8 +1,8 @@
 from django.contrib.auth.models import User
 from rest_framework import permissions, viewsets
 
-from .models import Education, Work, Portfolio
-from .serializers import UserSerializer, EducationSerializer, WorkSerializer, PortfolioSerializer
+from .models import Education, Work, Portfolio, Bio
+from .serializers import UserSerializer, EducationSerializer, WorkSerializer, PortfolioSerializer, BioSerializer
 
 
 # class UserViewSet(viewsets.ModelViewSet):
@@ -26,4 +26,9 @@ class WorkViewSet(viewsets.ModelViewSet):
 class PortfolioViewSet(viewsets.ModelViewSet):
     queryset = Portfolio.objects.all()
     serializer_class = PortfolioSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+class BioViewSet(viewsets.ModelViewSet):
+    queryset = Bio.objects.all()
+    serializer_class = BioSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
