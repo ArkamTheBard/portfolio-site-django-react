@@ -56,7 +56,7 @@ function App() {
     const portfolioData = await portfolioResponse.json()
     setPortfolio(portfolioData)
 
-    const bioResponse = await fetch('/bio')
+    const bioResponse = await fetch('https://api.yardleygutierrez.com/bio')
     const bioData = await bioResponse.json()
     setBio(bioData)
   }
