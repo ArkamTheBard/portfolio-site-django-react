@@ -43,7 +43,7 @@ function App() {
   const isVisible3 = useIsVisible(portfolioRef)
 
   const getData = async () => {
-    const educationResponse = await fetch('/education')
+    const educationResponse = await fetch('https://api.yardleygutierrez.com/education')
     const educationData = await educationResponse.json()
     setEducation(educationData)
 
