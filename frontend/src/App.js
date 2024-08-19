@@ -64,7 +64,7 @@ function App() {
   return (
     <>
       <Nav homeRef={homeRef} educationRef={educationRef} workRef={workRef} portfolioRef={portfolioRef} />
-      <div className={`md:h-screen pt-10 transition-opacity ease-in duration-700 ${isVisible0 ? "opacity-100" : "opacity-0"} dark:bg-slate-800`} ref={homeRef}>
+      <div className={`md:h-screen pt-10 transition-opacity ease-in duration-700 dark:bg-slate-800`} ref={homeRef}>
         <div className='md:w-2/4 w-10/12 mx-auto mt-10 mb-3'>
           <h1 className='text-5xl mb-3 dark:text-white'>Yardley Gutierrez</h1>
           <p className='text-2xl text-cyan-800 ml-2 dark:text-white'>Software Engineer II</p>
@@ -81,7 +81,7 @@ function App() {
         </div>
       </div>
 
-      <div className={`md:h-screen pt-16 transition-opacity ease-in duration-700 ${isVisible1 ? "opacity-100" : "opacity-0"} dark:bg-slate-800`} ref={educationRef}>
+      <div className={`md:h-screen pt-16 transition-opacity ease-in duration-700 dark:bg-slate-800`} ref={educationRef}>
         <div className='mb-5 mx-5'>
           <h1 className='text-5xl mb-3 dark:text-white'>My Education</h1>
           <p className='text-lg text-cyan-900 dark:text-cyan-200'>Here is the education I have received</p>
@@ -98,7 +98,7 @@ function App() {
         </div>
       </div>
 
-      <div className={`md:h-screen pt-16 transition-opacity ease-in duration-700 ${isVisible2 ? "opacity-100" : "opacity-0"} dark:bg-slate-800`} ref={workRef}>
+      <div className={`md:h-screen pt-16 transition-opacity ease-in duration-700 dark:bg-slate-800`} ref={workRef}>
         <div className='mb-5 mx-5'>
           <h1 className='text-5xl mb-3 dark:text-white'>My Work Experience</h1>
           <p className='text-lg text-cyan-900 dark:text-cyan-200'>Here is my most recent relevant work experience</p>
@@ -115,7 +115,7 @@ function App() {
         </div>
       </div>
 
-      <div className={`md:h-screen pt-16 transition-opacity ease-in duration-700 ${isVisible3 ? "opacity-100" : "opacity-0"} dark:bg-slate-800`} ref={portfolioRef}>
+      <div className={`md:h-screen pt-16 transition-opacity ease-in duration-700 dark:bg-slate-800`} ref={portfolioRef}>
         <div className='mb-5 mx-5'>
           <h1 className='text-5xl mb-3 dark:text-white'>My Portfolio</h1>
           <p className='text-lg text-cyan-900 dark:text-cyan-200'>Here are some of my own projects I have been working on/built with a link to the code on GitHub</p>
