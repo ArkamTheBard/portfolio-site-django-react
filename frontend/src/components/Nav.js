@@ -15,21 +15,21 @@ const Nav = ({ homeRef, educationRef, workRef, portfolioRef }) => {
 
     return (
         <>
-            <div className='hidden md:block sticky top-0'>
-                <ul className='flex bg-stone-100 cursor-pointer'>
-                    <li className='mx-3 my-4 text-2xl text-slate-900 hover:text-slate-700 transition' onClick={() => executeScroll(homeRef)}>Yardley Gutierrez</li>
-                    <li className='mx-3 my-5 text-slate-900 hover:text-slate-700 transition' onClick={() => executeScroll(educationRef)}>Education</li>
-                    <li className='mx-3 my-5 text-slate-900 hover:text-slate-700 transition' onClick={() => executeScroll(workRef)}>Work Experience</li>
-                    <li className='mx-3 my-5 text-slate-900 hover:text-slate-700 transition' onClick={() => executeScroll(portfolioRef)}>Portfolio</li>
+            <div className='hidden md:block sticky top-0 dark:bg-slate-800'>
+                <ul className='flex bg-stone-100 cursor-pointer dark:bg-slate-800'>
+                    <li className='mx-3 my-4 text-2xl text-slate-900 hover:text-slate-700 transition dark:text-white' onClick={() => executeScroll(homeRef)}>Yardley Gutierrez</li>
+                    <li className='mx-3 my-5 text-slate-900 hover:text-slate-700 transition dark:text-white' onClick={() => executeScroll(educationRef)}>Education</li>
+                    <li className='mx-3 my-5 text-slate-900 hover:text-slate-700 transition dark:text-white ' onClick={() => executeScroll(workRef)}>Work Experience</li>
+                    <li className='mx-3 my-5 text-slate-900 hover:text-slate-700 transition dark:text-white' onClick={() => executeScroll(portfolioRef)}>Portfolio</li>
                 </ul>
             </div>
             
-            <div className='md:hidden block sticky top-0'>
-                <div className='flex justify-between w-100 bg-stone-100 cursor-pointer'>
-                    <div className='mx-3 my-4 text-2xl text-slate-900 hover:text-slate-700 transition' onClick={() => {executeScroll(homeRef); setToggleMenu(false)}}>Yardley Gutierrez</div>
+            <div className='md:hidden block sticky top-0 dark:bg-slate-800'>
+                <div className='flex justify-between w-100 bg-stone-100 cursor-pointer dark:bg-slate-800'>
+                    <div className='mx-3 my-4 text-2xl text-slate-900 hover:text-slate-700 transition dark:text-white' onClick={() => {executeScroll(homeRef); setToggleMenu(false)}}>Yardley Gutierrez</div>
                     <svg
                         onClick={navIconHandler}
-                        className='w-8 h-8 text-slate-900 my-4 mr-5'
+                        className='w-8 h-8 text-slate-900 my-4 mr-5 dark:bg-slate-100'
                         x-show='!showMenu'
                         fill='none'
                         strokeLinecap='round'
@@ -43,10 +43,10 @@ const Nav = ({ homeRef, educationRef, workRef, portfolioRef }) => {
                 </div>
 
                 <div className={toggleMenu ? '' : 'hidden'}>
-                    <div className='grid grid-cols-1 bg-stone-100 cursor-pointer'>
-                        <div className='mx-3 my-5  text-slate-900 hover:text-slate-700 transition' onClick={() => {executeScroll(educationRef); setToggleMenu(!toggleMenu)}}>Education</div>
-                        <div className='mx-3 my-5  text-slate-900 hover:text-slate-700 transition' onClick={() => {executeScroll(workRef); setToggleMenu(!toggleMenu)}}>Work Experience</div>
-                        <div className='mx-3 my-5  text-slate-900 hover:text-slate-700 transition' onClick={() => {executeScroll(portfolioRef); setToggleMenu(!toggleMenu)}}>Portfolio</div>
+                    <div className='grid grid-cols-1 bg-stone-100 cursor-pointer dark:bg-slate-800'>
+                        <div className='mx-3 my-5  text-slate-900 hover:text-slate-700 transition dark:text-white' onClick={() => {executeScroll(educationRef); setToggleMenu(!toggleMenu)}}>Education</div>
+                        <div className='mx-3 my-5  text-slate-900 hover:text-slate-700 transition dark:text-white' onClick={() => {executeScroll(workRef); setToggleMenu(!toggleMenu)}}>Work Experience</div>
+                        <div className='mx-3 my-5  text-slate-900 hover:text-slate-700 transition dark:text-white' onClick={() => {executeScroll(portfolioRef); setToggleMenu(!toggleMenu)}}>Portfolio</div>
                     </div>
                 </div>
             </div>
