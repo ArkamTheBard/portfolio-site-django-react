@@ -127,7 +127,7 @@ function App() {
             <h3 className='text-lg border-b-2 border-slate-300 text-slate-800 dark:text-white'>{p.title}</h3>
             <a className='py-2 text-blue-500 hover:text-blue-700 transition cursor-pointer' href={p.url}>View Code</a>
             <p className='dark:text-white'>{p.description}</p>
-            <img alt='portfolio' src={p.image}></img>
+            <img class="max-h-80" alt='portfolio' src={p.image}></img>
             </div>
           ))}
         </div>
