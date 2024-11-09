@@ -121,7 +121,7 @@ function App() {
           <p className='text-lg text-cyan-900 dark:text-cyan-200'>Here are some of my own projects I have been working on/built with a link to the code on GitHub</p>
         </div>
 
-        <div className='grid md:grid-cols-3 grid-cols-1 gap-4 mx-5'>
+        <div className='grid md:grid-cols-3 grid-cols-1 gap-4 mx-auto dark:bg-slate-800'>
           {portfolio && portfolio.map(p => (
             <div key={p.id} className='border rounded-sm p-3 shadow'>
             <h3 className='text-lg border-b-2 border-slate-300 text-slate-800 dark:text-white'>{p.title}</h3>
