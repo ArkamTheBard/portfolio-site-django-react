@@ -72,7 +72,7 @@ function App() {
 
         <div className='flex md:flex-row flex-col space-between md:w-2/4 m-auto py-5 border rounded-sm px-3 shadow'>
           <img alt='profile' className='rounded-full w-64 h-72 mx-8' src='./Yardley-Gutierrez-web.jpg'></img>
-          <div className='md:max-h-96 overflow-y-scroll scroll-smooth'>
+          <div className='max-h-96 overflow-y-scroll scroll-smooth'>
             <h5 className='text-2xl text-cyan-900 border-b-2 border-slate-300 dark:text-cyan-200'>About me</h5>
             {bio && bio.map(b => (
               <p key={b.id} className='pt-3 dark:text-white '>{b.description}</p>
@@ -106,7 +106,7 @@ function App() {
 
         <div className='grid md:grid-cols-3 grid-cols-1 gap-4 mx-5'>
         {work && work.map(w => (
-          <div key={w.id} className='border rounded-sm p-3 shadow'>
+          <div key={w.id} className='border rounded-sm p-3 shadow max-h-80 overflow-y-scroll scroll-smooth'>
           <h3 className='text-lg border-b-2 border-slate-300 text-slate-800 dark:text-white'>{w.company}, {w.job_title}</h3>
           <h5 className='py-2 dark:text-white'>{w.years}</h5>
           <p className='dark:text-white'>{w.description}</p>
@@ -127,7 +127,7 @@ function App() {
             <h3 className='text-lg border-b-2 border-slate-300 text-slate-800 dark:text-white'>{p.title}</h3>
             <a className='py-2 text-blue-500 hover:text-blue-700 transition cursor-pointer' href={p.url}>View Code</a>
             <p className='dark:text-white'>{p.description}</p>
-            <img class="max-h-80" alt='portfolio' src={p.image}></img>
+            <img className="max-h-80 object-scale-down" alt='portfolio' src={p.image}></img>
             </div>
           ))}
         </div>
