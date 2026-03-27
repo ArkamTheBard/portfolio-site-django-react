@@ -82,19 +82,32 @@ WSGI_APPLICATION = 'api.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 DEVELOPMENT_MODE = os.getenv("DEVELOPMENT_MODE", "False").lower() == "true"
+USE_SQLITE = os.getenv("USE_SQLITE", "False").lower() == "true"
+SQLITE_PATH = os.getenv("SQLITE_PATH", BASE_DIR / 'db.sqlite3')
 
-if DEVELOPMENT_MODE:
+if USE_SQLITE or DEVELOPMENT_MODE:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
+            'NAME': SQLITE_PATH,
         }
     }
-elif len(sys.argv) > 0 and sys.argv[1] != 'collectstatic':
-    if os.getenv("DATABASE_URL", None) is None:
-        raise Exception("DATABASE_URL environment variable not defined")
+elif len(sys.argv) > 1 and sys.argv[1] != 'collectstatic':
+    database_url = os.getenv("DATABASE_URL")
+    if database_url is None:
+        raise Exception(
+            "DATABASE_URL environment variable not defined. "
+            "Set USE_SQLITE=true to run with SQLite."
+        )
     DATABASES = {
-        "default": dj_database_url.parse(os.environ.get("DATABASE_URL")),
+        "default": dj_database_url.parse(database_url),
+    }
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': SQLITE_PATH,
+        }
     }
 
 
