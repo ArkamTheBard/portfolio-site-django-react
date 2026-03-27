@@ -7,3 +7,4 @@ api/api/*.pyc
 __pycache__/
 .vs
 api/api/__pycache__/settings.cpython-310.pyc
+AGENTS.md

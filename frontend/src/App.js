@@ -1,26 +1,26 @@
 import { useRef, useEffect, useState } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import Nav from './components/Nav'
 
-export function useIsVisible(ref) {
+const API_BASE_URL = (
+  process.env.REACT_APP_API_BASE_URL ||
+  (process.env.NODE_ENV === 'production' ? 'https://api.yardleygutierrez.com' : '')
+).replace(/\/$/, '')
 
-  const [isIntersecting, setIntersecting] = useState(false)
+const buildApiUrl = path => `${API_BASE_URL}/${path}`
+const THEME_STORAGE_KEY = 'rp-portfolio-theme'
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(([entry]) => {
-      setIntersecting(entry.isIntersecting)
-    })
+const getPreferredTheme = () => {
+  if (typeof window === 'undefined') {
+    return 'light'
+  }
 
-    observer.observe(ref.current)
-    return () => {
-      observer.disconnect()
-    }
+  const savedTheme = window.localStorage.getItem(THEME_STORAGE_KEY)
+  if (savedTheme === 'light' || savedTheme === 'dark') {
+    return savedTheme
+  }
 
-  }, [ref])
-
-  return isIntersecting
-
+  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
 }
 
 function App() {
@@ -29,111 +29,180 @@ function App() {
   const [work, setWork] = useState([])
   const [portfolio, setPortfolio] = useState([])
   const [bio, setBio] = useState([])
+  const [theme, setTheme] = useState(getPreferredTheme)
 
   useEffect( () => {
     getData()
   }, [])
+
+  useEffect(() => {
+    document.documentElement.dataset.theme = theme
+    document.documentElement.style.colorScheme = theme
+    window.localStorage.setItem(THEME_STORAGE_KEY, theme)
+  }, [theme])
+
   const homeRef = useRef(null)
   const educationRef = useRef(null)
   const workRef = useRef(null)
   const portfolioRef = useRef(null)
 
-  const isVisible0 = useIsVisible(homeRef)
-  const isVisible1 = useIsVisible(educationRef)
-  const isVisible2 = useIsVisible(workRef)
-  const isVisible3 = useIsVisible(portfolioRef)
+  const toggleTheme = () => {
+    setTheme(currentTheme => currentTheme === 'dark' ? 'light' : 'dark')
+  }
 
   const getData = async () => {
-    const educationResponse = await fetch('https://api.yardleygutierrez.com/education')
-    const educationData = await educationResponse.json()
+    const [educationResponse, workResponse, portfolioResponse, bioResponse] = await Promise.all([
+      fetch(buildApiUrl('education')),
+      fetch(buildApiUrl('work')),
+      fetch(buildApiUrl('portfolio')),
+      fetch(buildApiUrl('bio')),
+    ])
+
+    const [educationData, workData, portfolioData, bioData] = await Promise.all([
+      educationResponse.json(),
+      workResponse.json(),
+      portfolioResponse.json(),
+      bioResponse.json(),
+    ])
+
     setEducation(educationData)
-
-    const workResponse = await fetch('https://api.yardleygutierrez.com/work')
-    const workData = await workResponse.json()
     setWork(workData)
-
-    const portfolioResponse = await fetch('https://api.yardleygutierrez.com/portfolio')
-    const portfolioData = await portfolioResponse.json()
     setPortfolio(portfolioData)
-
-    const bioResponse = await fetch('https://api.yardleygutierrez.com/bio')
-    const bioData = await bioResponse.json()
     setBio(bioData)
   }
 
   return (
-    <>
-      <Nav homeRef={homeRef} educationRef={educationRef} workRef={workRef} portfolioRef={portfolioRef} />
-      <div className={`min-h-screen pt-10 transition-opacity ease-in duration-700 bg-white dark:bg-slate-800`} ref={homeRef}>
-        <div className='md:w-2/4 w-10/12 mx-auto mt-10 mb-3'>
-          <h1 className='text-5xl mb-3 dark:text-white'>Yardley Gutierrez</h1>
-          <p className='text-2xl text-cyan-800 ml-2 dark:text-white'>Software Engineer II</p>
-        </div>
-
-        <div className='flex md:flex-row flex-col space-between md:w-2/4 m-auto py-5 border rounded-sm px-3 shadow'>
-          <img alt='profile' className='rounded-full w-64 h-72 mx-8' src='./Yardley-Gutierrez-web.jpg'></img>
-          <div className='max-h-96 overflow-y-scroll scroll-smooth'>
-            <h5 className='text-2xl text-cyan-900 border-b-2 border-slate-300 dark:text-cyan-200'>About me</h5>
-            {bio && bio.map(b => (
-              <p key={b.id} className='pt-3 dark:text-white '>{b.description}</p>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      <div className={`min-h-screen pt-16 transition-opacity ease-in duration-700 bg-white dark:bg-slate-800`} ref={educationRef}>
-        <div className='mb-5 mx-5'>
-          <h1 className='text-5xl mb-3 dark:text-white'>My Education</h1>
-          <p className='text-lg text-cyan-900 dark:text-cyan-200'>Here is the education I have received</p>
-        </div>
-
-        <div className='grid md:grid-cols-2 grid-cols-1 gap-4 mx-5'>
-        {education && education.map(e => (
-          <div key={e.id} className='border rounded-sm p-3 shadow'>
-            <h3 className='text-lg border-b-2 border-slate-300 text-slate-800 dark:text-white'>{e.school}, {e.degree}</h3>
-            <h5 className='py-2 dark:text-white'>{e.year}</h5>
-            <p className='dark:text-white'>{e.description}</p>
-          </div>
-        ))}
-        </div>
-      </div>
-
-      <div className={`min-h-screen pt-16 transition-opacity ease-in duration-700 bg-white dark:bg-slate-800`} ref={workRef}>
-        <div className='mb-5 mx-5'>
-          <h1 className='text-5xl mb-3 dark:text-white'>My Work Experience</h1>
-          <p className='text-lg text-cyan-900 dark:text-cyan-200'>Here is my most recent relevant work experience</p>
-        </div>
-
-        <div className='grid md:grid-cols-3 grid-cols-1 gap-4 mx-5'>
-        {work && work.map(w => (
-          <div key={w.id} className='border rounded-sm p-3 shadow max-h-80 overflow-y-scroll scroll-smooth'>
-          <h3 className='text-lg border-b-2 border-slate-300 text-slate-800 dark:text-white'>{w.company}, {w.job_title}</h3>
-          <h5 className='py-2 dark:text-white'>{w.years}</h5>
-          <p className='dark:text-white'>{w.description}</p>
-          </div>
-        ))}
-        </div>
-      </div>
-
-      <div className={`min-h-screen pt-16 transition-opacity ease-in duration-700 bg-white dark:bg-slate-800`} ref={portfolioRef}>
-        <div className='mb-5 mx-5'>
-          <h1 className='text-5xl mb-3 dark:text-white'>My Portfolio</h1>
-          <p className='text-lg text-cyan-900 dark:text-cyan-200'>Here are some of my own projects I have been working on/built with a link to the code on GitHub</p>
-        </div>
-
-        <div className='grid md:grid-cols-3 grid-cols-1 gap-4'>
-          {portfolio && portfolio.map(p => (
-            <div key={p.id} className='border rounded-sm p-3 shadow mx-5'>
-            <h3 className='text-lg border-b-2 border-slate-300 text-slate-800 dark:text-white'>{p.title}</h3>
-            <a className='py-2 text-blue-500 hover:text-blue-700 transition cursor-pointer' href={p.url}>View Code</a>
-            <p className='dark:text-white'>{p.description}</p>
-            <img className="max-h-80 object-scale-down" alt='portfolio' src={p.image}></img>
+    <div className='app-shell'>
+      <Nav
+        homeRef={homeRef}
+        educationRef={educationRef}
+        workRef={workRef}
+        portfolioRef={portfolioRef}
+        theme={theme}
+        onToggleTheme={toggleTheme}
+      />
+      <main className='px-4 pb-16 pt-24 sm:px-6 lg:px-10'>
+        <section className='mx-auto grid min-h-[calc(100vh-8rem)] w-full max-w-7xl items-center gap-8 lg:grid-cols-[1.2fr_0.8fr]' ref={homeRef}>
+          <div className='space-y-8'>
+            <div className='space-y-6'>
+              <p className='eyebrow'>Portfolio</p>
+              <div className='space-y-4'>
+                <h1 className='max-w-4xl text-5xl font-semibold tracking-tight text-[var(--text-strong)] sm:text-6xl lg:text-7xl'>
+                  Yardley Gutierrez
+                </h1>
+                <p className='max-w-2xl text-xl text-[var(--muted)] sm:text-2xl'>
+                  Software Engineer building resilient data pipelines, scalable APIs, and intuitive web applications that perform reliably at scale.
+                </p>
+              </div>
             </div>
-          ))}
-        </div>
-      </div>
 
-    </>
+            <div className='flex flex-wrap gap-3 text-sm'>
+              <span className='pill'>Django + DRF</span>
+              <span className='pill'>React</span>
+              <span className='pill'>REST APIs</span>
+              <span className='pill'>Responsive UI</span>
+            </div>
+
+            <div className='hero-grid'>
+              <div className='feature-card'>
+                <p className='feature-label'>Focus</p>
+                <p className='feature-value'>Data platforms & reliable backend systems</p>
+              </div>
+              <div className='feature-card'>
+                <p className='feature-label'>Approach</p>
+                <p className='feature-value'>Pragmatic, maintainable engineering</p>
+              </div>
+            </div>
+          </div>
+
+          <div className='panel overflow-hidden p-5 sm:p-7'>
+            <div className='flex flex-col gap-6 lg:gap-8'>
+              <img alt='profile' className='profile-image mx-auto aspect-[4/5] w-full max-w-sm rounded-[2rem] object-cover' src='./Yardley-Gutierrez-web.jpg'></img>
+              <div className='space-y-4'>
+                <div className='section-divider flex items-center justify-between gap-4 pb-3'>
+                  <h2 className='text-2xl font-semibold tracking-tight text-[var(--text-strong)]'>About me</h2>
+                  <span className='status-badge'>Currently active</span>
+                </div>
+                <div className='max-h-80 space-y-4 overflow-y-auto pr-2'>
+            {bio && bio.map(b => (
+                    <p key={b.id} className='text-base leading-8 text-[var(--muted)]'>{b.description}</p>
+            ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className='section-shell mx-auto mt-10 max-w-7xl' ref={educationRef}>
+          <div className='section-heading'>
+            <p className='eyebrow'>Education</p>
+            <h2 className='section-title'>Academic foundation</h2>
+            <p className='section-copy'>A concise view of formal training and the groundwork behind the engineering work.</p>
+          </div>
+
+          <div className='grid gap-5 md:grid-cols-2'>
+        {education && education.map(e => (
+            <article key={e.id} className='panel p-6 sm:p-7'>
+              <div className='section-divider mb-5 flex items-start justify-between gap-4 pb-4'>
+                <div>
+                  <h3 className='text-xl font-semibold tracking-tight text-[var(--text-strong)]'>{e.school}</h3>
+                  <p className='mt-1 text-sm font-medium uppercase tracking-[0.18em] text-[var(--muted-strong)]'>{e.degree}</p>
+                </div>
+                <span className='pill shrink-0'>{e.year}</span>
+              </div>
+              <p className='text-base leading-7 text-[var(--muted)]'>{e.description}</p>
+            </article>
+        ))}
+          </div>
+        </section>
+
+        <section className='section-shell mx-auto mt-10 max-w-7xl' ref={workRef}>
+          <div className='section-heading'>
+            <p className='eyebrow'>Experience</p>
+            <h2 className='section-title'>Recent work</h2>
+            <p className='section-copy'>Relevant experience with an emphasis on product delivery, implementation details, and technical breadth.</p>
+          </div>
+
+          <div className='grid gap-5 md:grid-cols-2 xl:grid-cols-3'>
+        {work && work.map(w => (
+            <article key={w.id} className='panel flex h-full flex-col p-6 sm:p-7'>
+              <div className='section-divider mb-5 pb-4'>
+                <h3 className='text-xl font-semibold tracking-tight text-[var(--text-strong)]'>{w.company}</h3>
+                <p className='mt-1 text-sm font-medium uppercase tracking-[0.18em] text-[var(--accent-strong)]'>{w.job_title}</p>
+                <p className='mt-3 text-sm text-[var(--muted-strong)]'>{w.years}</p>
+              </div>
+              <p className='text-base leading-7 text-[var(--muted)]'>{w.description}</p>
+            </article>
+        ))}
+          </div>
+        </section>
+
+        <section className='section-shell mx-auto mt-10 max-w-7xl' ref={portfolioRef}>
+          <div className='section-heading'>
+            <p className='eyebrow'>Portfolio</p>
+            <h2 className='section-title'>Selected projects</h2>
+            <p className='section-copy'>A set of shipped or in-progress projects with screenshots and direct links to the code.</p>
+          </div>
+
+          <div className='grid gap-5 md:grid-cols-2 xl:grid-cols-3'>
+          {portfolio && portfolio.map(p => (
+            <article key={p.id} className='panel overflow-hidden p-0'>
+              <div className='portfolio-media aspect-[16/10] overflow-hidden'>
+                <img className='h-full w-full object-cover transition duration-500 hover:scale-[1.03]' alt='portfolio' src={p.image}></img>
+              </div>
+              <div className='space-y-4 p-6 sm:p-7'>
+                <div className='space-y-2'>
+                  <h3 className='text-xl font-semibold tracking-tight text-[var(--text-strong)]'>{p.title}</h3>
+                  <p className='text-base leading-7 text-[var(--muted)]'>{p.description}</p>
+                </div>
+                <a className='cta-link inline-flex items-center rounded-full px-4 py-2 text-sm font-medium transition hover:-translate-y-0.5' href={p.url}>View code</a>
+              </div>
+            </article>
+          ))}
+          </div>
+        </section>
+      </main>
+    </div>
   );
 }
 

@@ -1,6 +1,6 @@
 import {useState} from 'react'
 
-const Nav = ({ homeRef, educationRef, workRef, portfolioRef }) => {
+const Nav = ({ homeRef, educationRef, workRef, portfolioRef, theme, onToggleTheme }) => {
     const [toggleMenu, setToggleMenu] = useState(false)
     const navIconHandler = e => {
         e.preventDefault()
@@ -15,41 +15,54 @@ const Nav = ({ homeRef, educationRef, workRef, portfolioRef }) => {
 
     return (
         <>
-            <div className='hidden md:block sticky top-0 dark:bg-slate-800'>
-                <ul className='flex bg-stone-100 cursor-pointer dark:bg-slate-800'>
-                    <li className='mx-3 my-4 text-2xl text-slate-900 hover:text-slate-600 transition dark:text-white dark:hover:text-slate-400' onClick={() => executeScroll(homeRef)}>Yardley Gutierrez</li>
-                    <li className='mx-3 my-5 text-slate-900 hover:text-slate-600 transition dark:text-white dark:hover:text-slate-400' onClick={() => executeScroll(educationRef)}>Education</li>
-                    <li className='mx-3 my-5 text-slate-900 hover:text-slate-600 transition dark:text-white dark:hover:text-slate-400' onClick={() => executeScroll(workRef)}>Work Experience</li>
-                    <li className='mx-3 my-5 text-slate-900 hover:text-slate-600 transition dark:text-white dark:hover:text-slate-400' onClick={() => executeScroll(portfolioRef)}>Portfolio</li>
-                </ul>
-            </div>
-            
-            <div className='md:hidden block sticky top-0 dark:bg-slate-800'>
-                <div className='flex justify-between w-100 bg-stone-100 cursor-pointer dark:bg-slate-800'>
-                    <div className='mx-3 my-4 text-2xl text-slate-900 hover:text-slate-600 transition dark:text-white dark:hover:text-slate-400' onClick={() => {executeScroll(homeRef); setToggleMenu(false)}}>Yardley Gutierrez</div>
-                    <svg
-                        onClick={navIconHandler}
-                        className='w-8 h-8 text-slate-900 my-4 mr-5 dark:bg-slate-400'
-                        x-show='!showMenu'
-                        fill='none'
-                        strokeLinecap='round'
-                        strokeLinejoin='round'
-                        strokeWidth='2'
-                        viewBox='0 0 24 24'
-                        stroke='currentColor'
-                    >
-                        <path d='M4 6h16M4 12h16M4 18h16'></path>
-                    </svg>
-                </div>
+            <header className='fixed inset-x-0 top-0 z-50 px-4 py-4 sm:px-6 lg:px-10'>
+                <div className={`nav-shell mx-auto max-w-7xl px-4 py-3 ${toggleMenu ? 'nav-shell-open' : 'rounded-full'}`}>
+                    <div className='hidden items-center justify-between md:flex'>
+                        <button className='text-left text-xl font-semibold tracking-tight text-[var(--text-strong)] transition hover:text-[var(--accent-strong)]' onClick={() => executeScroll(homeRef)}>Yardley Gutierrez</button>
+                        <div className='flex items-center gap-3'>
+                            <nav>
+                            <ul className='flex items-center gap-2'>
+                                <li><button className='nav-link' onClick={() => executeScroll(educationRef)}>Education</button></li>
+                                <li><button className='nav-link' onClick={() => executeScroll(workRef)}>Experience</button></li>
+                                <li><button className='nav-link' onClick={() => executeScroll(portfolioRef)}>Portfolio</button></li>
+                            </ul>
+                            </nav>
+                            <button className='theme-toggle' onClick={onToggleTheme}>
+                                <span className='theme-toggle-icon'>{theme === 'dark' ? '🌙' : '☀️'}</span>
+                                <span>{theme === 'dark' ? 'Dark' : 'Light'}</span>
+                            </button>
+                        </div>
+                    </div>
 
-                <div className={toggleMenu ? '' : 'hidden'}>
-                    <div className='grid grid-cols-1 bg-stone-100 cursor-pointer dark:bg-slate-800'>
-                        <div className='mx-3 my-5  text-slate-900 hover:text-slate-600 transition dark:text-white dark:hover:text-slate-400' onClick={() => {executeScroll(educationRef); setToggleMenu(!toggleMenu)}}>Education</div>
-                        <div className='mx-3 my-5  text-slate-900 hover:text-slate-600 transition dark:text-white dark:hover:text-slate-400' onClick={() => {executeScroll(workRef); setToggleMenu(!toggleMenu)}}>Work Experience</div>
-                        <div className='mx-3 my-5  text-slate-900 hover:text-slate-600 transition dark:text-white dark:hover:text-slate-400' onClick={() => {executeScroll(portfolioRef); setToggleMenu(!toggleMenu)}}>Portfolio</div>
+                    <div className='flex items-center justify-between gap-3 md:hidden'>
+                        <button className='text-left text-lg font-semibold tracking-tight text-[var(--text-strong)]' onClick={() => {executeScroll(homeRef); setToggleMenu(false)}}>Yardley Gutierrez</button>
+                        <div className='flex items-center gap-2'>
+                            <button className='theme-toggle theme-toggle-mobile' onClick={onToggleTheme}>
+                                <span className='theme-toggle-icon'>{theme === 'dark' ? '🌙' : '☀️'}</span>
+                            </button>
+                            <svg
+                                onClick={navIconHandler}
+                                className='menu-toggle'
+                                x-show='!showMenu'
+                                fill='none'
+                                strokeLinecap='round'
+                                strokeLinejoin='round'
+                                strokeWidth='2'
+                                viewBox='0 0 24 24'
+                                stroke='currentColor'
+                            >
+                                <path d='M4 6h16M4 12h16M4 18h16'></path>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <div className={toggleMenu ? 'menu-panel mt-3 grid gap-2 pt-3' : 'hidden'}>
+                        <button className='mobile-nav-link' onClick={() => {executeScroll(educationRef); setToggleMenu(false)}}>Education</button>
+                        <button className='mobile-nav-link' onClick={() => {executeScroll(workRef); setToggleMenu(false)}}>Experience</button>
+                        <button className='mobile-nav-link' onClick={() => {executeScroll(portfolioRef); setToggleMenu(false)}}>Portfolio</button>
                     </div>
                 </div>
-            </div>
+            </header>
         </>
     );
 }
